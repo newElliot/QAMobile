@@ -1,0 +1,69 @@
+package com.yourcompany.tests;
+import org.apache.logging.log4j.LogManager;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.yourcompany.base.BaseTest;
+import com.yourcompany.pageobject.android.homepage.ApiDemoPage;
+import com.yourcompany.pageobject.android.homepage.HomePage;
+import com.yourcompany.pageobject.android.homepage.ProductPage;
+
+public class TestStartApp extends BaseTest {
+	
+	@BeforeMethod
+	public void preConditions() throws Exception {
+		logger = LogManager.getLogger(TestStartApp.class);
+	}
+
+	//General store
+	@Test(enabled=false)
+	public void testStart() throws Exception {
+		HomePage homePage = new HomePage(wait, this);
+		ProductPage productPage = new ProductPage(wait, this);
+		
+		logger.info("*** Step 1: Enter value on NameFiled ***");
+		homePage.inputDataOnNameField("abc");
+		
+		logger.info("*** Step 2: Click on Lets Shop button ***");
+		homePage.tapOnLetsShopBtn();
+		
+		logger.info("*** Step 3: Buy goods ***");
+		productPage.addGoodsToCart();
+	}
+	
+	@Test(enabled=false)
+	public void tap() throws Exception{
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performTap();
+	}
+	
+	@Test(enabled=false)
+	public void doubleTap() throws Exception{
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performDoubleTap();
+	}
+	
+	@Test(enabled=false)
+	public void dragAndDrop() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performDragAndDrop();
+	}
+	
+	@Test(enabled=true)
+	public void scrollDown() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performScroll();
+	}
+	
+	@Test(enabled=false)
+	public void flick() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performFlick();
+	}
+	
+	@Test(enabled=false)
+	public void flickTo() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performFlickTo();
+	}
+}

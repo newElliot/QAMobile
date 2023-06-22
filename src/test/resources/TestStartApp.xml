@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Suite for develop">
+  
+  <parameter name="osName" value="Android" />
+  <parameter name="deviceType" value="EMULATOR" />
+  <parameter name="hub" value="http://localhost:" />
+  <parameter name="port" value="4723" />
+  <parameter name="timeOut" value="30" />
+  
+  <test name="Test for develop">
+		<classes>
+			<class name="com.yourcompany.tests.TestStartApp" />
+			<!-- <methods>
+				<include name="doubleTap" />
+			</method -->
+		</classes>
+	</test>
+</suite> <!-- Suite -->
