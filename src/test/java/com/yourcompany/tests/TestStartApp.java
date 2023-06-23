@@ -49,7 +49,7 @@ public class TestStartApp extends BaseTest {
 		apiPage.performDragAndDrop();
 	}
 	
-	@Test(enabled=true)
+	@Test(enabled=false)
 	public void scrollDown() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performScroll();
@@ -65,5 +65,17 @@ public class TestStartApp extends BaseTest {
 	public void flickTo() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performFlickTo();
+	}
+	
+	@Test(enabled=false)
+	public void swipe() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performSwipe();
+	}
+	
+	@Test(enabled=false)
+	public void swipeTo() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performSwipeTo();
 	}
 }

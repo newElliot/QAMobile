@@ -55,6 +55,22 @@ public class ApiDemoPage extends Gestures {
 		tap(apiDemoLocator.getViews());
 		tap(apiDemoLocator.getGallery());
 		tap(apiDemoLocator.getPhotos());
-		flickTo(apiDemoLocator.getGalleryContainer(), Direction.RIGHT_TO_LEFT, targetLocator);
+		flickTo(apiDemoLocator.getGalleryContainer(), Direction.LEFT_TO_RIGHT, targetLocator);
+	}
+	
+	public void performSwipe() throws Exception {
+		tap(apiDemoLocator.getViews());
+		tap(apiDemoLocator.getGallery());
+		tap(apiDemoLocator.getPhotos());
+		swipe(apiDemoLocator.getGalleryContainer(), Direction.LEFT_TO_RIGHT, 1);
+		swipe(apiDemoLocator.getGalleryContainer(), Direction.RIGHT_TO_LEFT, 1);
+	}
+	
+	public void performSwipeTo() throws Exception {
+		String targetLocator = "There is notthing";
+		tap(apiDemoLocator.getViews());
+		tap(apiDemoLocator.getGallery());
+		tap(apiDemoLocator.getPhotos());
+		swipeTo(apiDemoLocator.getGalleryContainer(), Direction.LEFT_TO_RIGHT, targetLocator);
 	}
 }

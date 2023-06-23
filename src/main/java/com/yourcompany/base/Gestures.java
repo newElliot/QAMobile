@@ -16,6 +16,10 @@ import com.yourcompany.utilities.MobileConstants;
 import com.yourcompany.utilities.TestUtilities;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+
 import org.openqa.selenium.interactions.PointerInput.Origin;
 
 public class Gestures {
@@ -24,8 +28,10 @@ public class Gestures {
 	private static final int SCROLL_SPEED = 1;
 	private static final int DRAG_SPEED = 2;
 	private static final int FLICK_SPEED = 2;
+	private static final long SWIPE_SPEED = 300;
 	private static final int MAX_SCROLL_TIME = 5;
 	private static final int MAX_FLICK_TIME = 5;
+	private static final int MAX_SWIPE_TIME = 5;
 	
 	private ElementUtils elementUtils;
 	protected AppiumDriver driver;
@@ -278,6 +284,131 @@ public class Gestures {
 		} finally {
 			setImplicitWait(MobileConstants.IMPLICIT_WAIT_DEFAULT);
 		}
+	}
+	
+	public void swipe(WebElement e, Direction direction, int swipeCount) throws Exception {
+		if (driver == null) {
+			throw new Exception("        Driver can not be null.");
+		}
+		PointerInput finger = null;
+		// Get the size of the screen
+		Dimension size = null;
+		// Calculate the start and end points for the swipe gesture
+		int startX = 0;
+		int startY = 0;
+		int endX = 0;
+		int endY = 0;
+		int swipeTime = 0;
+		
+		try {
+			while (swipeTime++ < swipeCount) {
+				finger = new PointerInput(PointerInput.Kind.TOUCH, YOUR_FINGER);
+				// Get the size of the screen
+				size = driver.manage().window().getSize();
+				// Calculate the start and end points for the swipe gesture
+				switch (direction) {
+				case LEFT_TO_RIGHT:
+					startX = (int) (e.getRect().x + e.getRect().width * 0.9);
+					startY = e.getRect().y + e.getRect().height / 2;
+					endX = (int) (size.width * 0.1);
+					endY = startY;
+					break;
+				case RIGHT_TO_LEFT:
+					startX = (int) (e.getRect().x + e.getRect().width * 0.1);
+					startY = e.getRect().y + e.getRect().height / 2;
+					endX = (int) (size.width * 0.9);
+					endY = startY;
+					break;
+				default:
+					break;
+				}
+				
+				Sequence swipe = new Sequence(finger, 1);
+				TestUtilities.setDelayTime(1);
+
+				swipe.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
+				swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+				swipe.addAction(new Pause(finger, Duration.ofMillis(100)));
+				swipe.addAction(finger.createPointerMove(Duration.ofMillis(SWIPE_SPEED), PointerInput.Origin.viewport(), endX, endY));
+				swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+				driver.perform(Arrays.asList(swipe));
+				logger.info("    Swiped from element " + e + " for " + swipeTime + " times");
+			}
+		} catch (Exception ex) {
+			throw new Exception("        Swipe failed, element=" + e + ", direction=" + direction.toString()
+			+ ", swipe count=" + swipeCount + ex);
+		}
+	}
+	
+	public void swipeTo(WebElement source, Direction direction, String targetLocator) throws Exception {
+		if (driver == null) {
+			throw new Exception("        Driver can not be null.");
+		}
+		PointerInput finger = null;
+		// Get the size of the screen
+		Dimension size = null;
+		// Calculate the start and end points for the swipe gesture
+		int startX = 0;
+		int startY = 0;
+		int endX = 0;
+		int endY = 0;
+		int swipeTime = 0;
+		boolean isFound = false;
+		
+		try {
+			setImplicitWait(2);
+			while (!isElementFound(targetLocator) && swipeTime++ < MAX_SWIPE_TIME) {
+				finger = new PointerInput(PointerInput.Kind.TOUCH, YOUR_FINGER);
+				// Get the size of the screen
+				size = driver.manage().window().getSize();
+				// Calculate the start and end points for the swipe gesture
+				switch (direction) {
+				case LEFT_TO_RIGHT:
+					startX = (int) (source.getRect().x + source.getRect().width * 0.8);
+					startY = source.getRect().y + source.getRect().height / 2;
+					endX = (int) (size.width * 0.1);
+					endY = startY;
+					break;
+				case RIGHT_TO_LEFT:
+					startX = (int) (source.getRect().x + source.getRect().width * 0.2);
+					startY = source.getRect().y + source.getRect().height / 2;
+					endX = (int) (size.width * 0.9);
+					endY = startY;
+					break;
+				default:
+					break;
+				}
+				
+				Sequence swipe = new Sequence(finger, 1);
+				TestUtilities.setDelayTime(1);
+
+				swipe.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
+				swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+				swipe.addAction(new Pause(finger, Duration.ofMillis(100)));
+				swipe.addAction(finger.createPointerMove(Duration.ofMillis(SWIPE_SPEED), PointerInput.Origin.viewport(), endX, endY));
+				swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+				driver.perform(Arrays.asList(swipe));
+				logger.info("    Swiped from element " + source + " for " + swipeTime + " times");
+				if (isElementFound(targetLocator)) {
+					isFound = true;
+				}
+			}
+			Assert.assertTrue(isFound, "        Element is not found, element=" + targetLocator);
+		} catch (Exception ex) {
+			throw new Exception("        Swipe failed, source element=" + source + ", direction=" + direction.toString()
+					+ ", target locator=" + targetLocator + ex);
+		} finally {
+			setImplicitWait(MobileConstants.IMPLICIT_WAIT_DEFAULT);
+		}
+	}
+	
+	public void pressHomeButton() {
+		if (this.driver instanceof AndroidDriver) {
+			AndroidDriver androidDriver = (AndroidDriver) driver;
+			androidDriver.pressKey(new KeyEvent(AndroidKey.HOME));
+			logger.info("    Pressed home button");
+		}
+		// else IOS driver
 	}
 	
 	private boolean isElementFound(String locator) throws Exception {
