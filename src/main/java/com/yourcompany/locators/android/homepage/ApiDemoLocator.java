@@ -33,6 +33,18 @@ public class ApiDemoLocator extends ElementUtils {
 		return waitUntilElementVisibilityByXpath("//*[@text='1. Photos']");
 	}
 	
+	public WebElement getPhoto1() {
+		return waitUntilElementVisibilityByXpath("//*[@class='android.widget.ImageView']");
+	}
+	
+	public WebElement getGraphics() {
+		return waitUntilElementVisibilityByXpath("//*[@text='Graphics']");
+	}
+	
+	public WebElement getFingerPaint() {
+		return waitUntilElementVisibilityByXpath("//*[@text='FingerPaint']");
+	}
+	
 	public WebElement getDragDot1() {
 		return waitUntilElementVisibilityById("drag_dot_1");
 	}

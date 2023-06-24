@@ -1,10 +1,12 @@
 package com.yourcompany.base;
 
+
 import java.time.Duration;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Pause;
@@ -19,7 +21,7 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
-
+import org.openqa.selenium.interactions.PointerInput.Kind;
 import org.openqa.selenium.interactions.PointerInput.Origin;
 
 public class Gestures {
@@ -29,6 +31,7 @@ public class Gestures {
 	private static final int DRAG_SPEED = 2;
 	private static final int FLICK_SPEED = 2;
 	private static final long SWIPE_SPEED = 300;
+	private static final int LONG_PRESS_SECOND = 3;
 	private static final int MAX_SCROLL_TIME = 5;
 	private static final int MAX_FLICK_TIME = 5;
 	private static final int MAX_SWIPE_TIME = 5;
@@ -45,6 +48,12 @@ public class Gestures {
 		e.clear();
 		e.sendKeys(value);
 		logger.info("    Entered value |" + value + "| to element " + e);
+	}
+	
+	public String getText(WebElement e) {
+		String text = e.getText();
+		logger.info("    Getted text = " + text + ", element=" + e);
+		return text;
 	}
 	
 	public void setImplicitWait(int timeOut) throws Exception {
@@ -402,13 +411,111 @@ public class Gestures {
 		}
 	}
 	
-	public void pressHomeButton() {
+	public void longPress(WebElement e) throws Exception {
+		if (driver == null) {
+			throw new Exception("        Driver can not be null");
+		}
+		
+		PointerInput finger = new PointerInput(Kind.TOUCH, YOUR_FINGER);
+		Sequence longPress = new Sequence(finger, 1);
+		try {
+			longPress.addAction(finger.createPointerMove(Duration.ZERO, Origin.fromElement(e), 0, 0));
+			longPress.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+			longPress.addAction(new Pause(finger, Duration.ofSeconds(LONG_PRESS_SECOND)));
+			longPress.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+			
+			driver.perform(Arrays.asList(longPress));
+			logger.info("    Pressed element for " + LONG_PRESS_SECOND + "s, element=" + e);
+		} catch (Exception ex) {
+			throw new Exception("        Long press failed, element=" + e + ", seconds=" + LONG_PRESS_SECOND, ex);
+		}
+	}
+	
+	public void rotate(RotateMode mode) throws Exception {
+		if (mode == null) {
+			throw new Exception("        RotateMode can not be null.");
+		}
 		if (this.driver instanceof AndroidDriver) {
 			AndroidDriver androidDriver = (AndroidDriver) driver;
-			androidDriver.pressKey(new KeyEvent(AndroidKey.HOME));
-			logger.info("    Pressed home button");
+			switch (mode) {
+			case NORMAL:
+				androidDriver.rotate(new DeviceRotation(0, 0, 0));
+				logger.info("    Rotated in normal");
+				break;
+			case LANDSCAPE:
+				androidDriver.rotate(new DeviceRotation(0, 0, 90));
+				logger.info("    Rotated in landscape");
+				break;
+			default:
+				break;
+			}
+		} // else IOS driver
+		
+	}
+	
+	public void pressHomeButton() throws Exception {
+		try {
+			if (this.driver instanceof AndroidDriver) {
+				AndroidDriver androidDriver = (AndroidDriver) driver;
+				androidDriver.pressKey(new KeyEvent(AndroidKey.HOME));
+				logger.info("    Pressed home button");
+			}
+			// else IOS driver
+		} catch (Exception e) {
+			throw new Exception("        Failed press home button.");
 		}
-		// else IOS driver
+	}
+	
+	public void pressBackButton() throws Exception {
+		try {
+			if (this.driver instanceof AndroidDriver) {
+				AndroidDriver androidDriver = (AndroidDriver) driver;
+				androidDriver.pressKey(new KeyEvent(AndroidKey.BACK));
+				logger.info("    Pressed back button");
+			}
+			// else IOS driver
+		} catch (Exception e) {
+			throw new Exception("        Failed press back button.");
+		}
+	}
+	
+	public void pressVolUpButton() throws Exception {
+		try {
+			if (this.driver instanceof AndroidDriver) {
+				AndroidDriver androidDriver = (AndroidDriver) driver;
+				androidDriver.pressKey(new KeyEvent(AndroidKey.VOLUME_UP));
+				logger.info("    Pressed volume up button");
+			}
+			// else IOS driver
+		} catch (Exception e) {
+			throw new Exception("        Failed press volume up button.");
+		}
+	}
+	
+	public void pressVolDownButton() throws Exception {
+		try {
+			if (this.driver instanceof AndroidDriver) {
+				AndroidDriver androidDriver = (AndroidDriver) driver;
+				androidDriver.pressKey(new KeyEvent(AndroidKey.VOLUME_DOWN));
+				logger.info("    Pressed volume down button");
+			}
+			// else IOS driver
+		} catch (Exception e) {
+			throw new Exception("        Failed press volume down button.");
+		}
+	}
+	
+	public void pressVolMuteButton() throws Exception {
+		try {
+			if (this.driver instanceof AndroidDriver) {
+				AndroidDriver androidDriver = (AndroidDriver) driver;
+				androidDriver.pressKey(new KeyEvent(AndroidKey.VOLUME_MUTE));
+				logger.info("    Pressed volume mute button");
+			}
+			// else IOS driver
+		} catch (Exception e) {
+			throw new Exception("        Failed press volume mute button.");
+		}
 	}
 	
 	private boolean isElementFound(String locator) throws Exception {

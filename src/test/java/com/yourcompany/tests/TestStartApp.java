@@ -78,4 +78,24 @@ public class TestStartApp extends BaseTest {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performSwipeTo();
 	}
+	
+	@Test(enabled=false)
+	public void longPress() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performLongPress();
+	}
+	//Zoom-in
+	//Zoom-out
+	
+	@Test(enabled=false)
+	public void rotate() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performRotate();
+	}
+	
+	@Test(enabled=true)
+	public void pressKey() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performPressKey();
+	}
 }

@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.yourcompany.base.BaseTest;
 import com.yourcompany.base.Direction;
 import com.yourcompany.base.Gestures;
+import com.yourcompany.base.RotateMode;
 import com.yourcompany.locators.android.homepage.ApiDemoLocator;
 
 public class ApiDemoPage extends Gestures {
@@ -41,7 +42,6 @@ public class ApiDemoPage extends Gestures {
 		scrollTo("//*[@text='Lists']");
 	}
 	
-	//Scroll left to right
 	public void performFlick() throws Exception {
 		tap(apiDemoLocator.getViews());
 		tap(apiDemoLocator.getGallery());
@@ -73,4 +73,26 @@ public class ApiDemoPage extends Gestures {
 		tap(apiDemoLocator.getPhotos());
 		swipeTo(apiDemoLocator.getGalleryContainer(), Direction.LEFT_TO_RIGHT, targetLocator);
 	}
+	
+	public void performLongPress() throws Exception {
+		tap(apiDemoLocator.getViews());
+		tap(apiDemoLocator.getGallery());
+		tap(apiDemoLocator.getPhotos());
+		longPress(apiDemoLocator.getPhoto1());
+	}
+	
+	public void performRotate() throws Exception {
+		rotate(RotateMode.LANDSCAPE);
+		Thread.sleep(2000);
+		rotate(RotateMode.NORMAL);
+	}
+	
+	public void performPressKey() throws Exception {
+		pressBackButton();
+		pressHomeButton();
+		pressVolDownButton();
+		pressVolUpButton();
+		pressVolMuteButton();
+	}
+	
 }
