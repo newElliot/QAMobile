@@ -73,6 +73,10 @@ public class ApiDemoLocator extends ElementUtils {
 		return waitUntilElementVisibilityById("button_toggle");
 	}
 	
+	public WebElement getAndroidView() {
+		return waitUntilElementVisibilityByXpath("//android.view.View");
+	}
+	
 	public String getTabs() {
 		return "//*[@text='Tabs']";
 	}

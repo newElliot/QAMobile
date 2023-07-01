@@ -170,6 +170,7 @@ public class BaseTest  {
 							.withAppiumJS(appiumJS)
 							.withIPAddress("127.0.0.1")
 							.usingPort(APPIUM_PORT)
+							.withLogFile(new File(SystemVariable.CURRENT_DIR + "/AppiumServerLog.log"))
 							.build();
 					service.start();
 				} catch (Exception ex) {

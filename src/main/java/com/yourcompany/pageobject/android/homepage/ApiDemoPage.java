@@ -95,4 +95,18 @@ public class ApiDemoPage extends Gestures {
 		pressVolMuteButton();
 	}
 	
+	public void performZoomOut() throws Exception {
+		tap(apiDemoLocator.getGraphics());
+		scrollTo("//*[@text='FingerPaint']");
+		tap(apiDemoLocator.getFingerPaint());
+		zoomOut(apiDemoLocator.getAndroidView());
+	}
+	
+	public void performZoomIn() throws Exception {
+		tap(apiDemoLocator.getGraphics());
+		scrollTo("//*[@text='FingerPaint']");
+		tap(apiDemoLocator.getFingerPaint());
+		zoomIn(apiDemoLocator.getAndroidView());
+	}
+	
 }

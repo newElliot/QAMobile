@@ -8,12 +8,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.DeviceRotation;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.Assert;
 
+import com.google.common.collect.ImmutableMap;
 import com.yourcompany.utilities.MobileConstants;
 import com.yourcompany.utilities.TestUtilities;
 
@@ -508,6 +511,34 @@ public class Gestures {
 			// else IOS driver
 		} catch (Exception e) {
 			throw new Exception("        Failed press volume mute button.");
+		}
+	}
+	
+	public void zoomOut(WebElement e) throws Exception {
+		checkDriver();
+		try {
+			((JavascriptExecutor) getDriver()).executeScript("mobile: pinchCloseGesture", ImmutableMap.of(
+				    "elementId", ((RemoteWebElement) e).getId(),
+				    "percent", 0.5), 
+					"speed", 1000
+					);
+			logger.info("    ZoomOut on element done, element:" + e);
+		} catch (Exception ex) {
+			throw new Exception("        ZoomOut failed, element:" + e);
+		}
+	}
+	
+	public void zoomIn(WebElement e) throws Exception {
+		checkDriver();
+		try {
+			((JavascriptExecutor) getDriver()).executeScript("mobile: pinchOpenGesture", ImmutableMap.of(
+				    "elementId", ((RemoteWebElement) e).getId(),
+				    "percent", 0.5), 
+					"speed", 100000
+					);
+			logger.info("    ZoomIn on element done, element:" + e);
+		} catch (Exception ex) {
+			throw new Exception("        ZoomIn failed, element:" + e);
 		}
 	}
 	
