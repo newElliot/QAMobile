@@ -12,7 +12,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +29,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 import com.yourcompany.configuration.Configuration;
 import com.yourcompany.configuration.DevicesMode;
@@ -123,7 +123,7 @@ public class BaseTest  {
 			} catch (Exception e) {
 				logger.error("Error initializing AndroidDriver, attempts=" + attempts + ", maxAttempts="
 						+ MAX_CONNECTION_ATTEMPTS, e);
-				Thread.sleep(TimeUnit.SECONDS.toMillis(5));
+				TestUtilities.setDelayTime(2);
 			}
 		} while (driver == null && attempts++ < MAX_CONNECTION_ATTEMPTS);
 		Assert.assertNotNull(driver, "Unable to initialize AndroidDriver, hubUrl="+url.toString());
@@ -148,8 +148,8 @@ public class BaseTest  {
 		}
 	}
 	
-//	@BeforeTest
-	public void killAllNodes() throws Exception {
+	@BeforeSuite(alwaysRun=true)
+	public void beforeSuite() throws Exception {
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM node.exe");
 			logger.info("    Killed all nodes");
