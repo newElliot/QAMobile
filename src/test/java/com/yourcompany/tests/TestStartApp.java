@@ -1,5 +1,6 @@
 package com.yourcompany.tests;
 import org.apache.logging.log4j.LogManager;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -17,7 +18,7 @@ public class TestStartApp extends BaseTest {
 
 	//General store
 	@Test(enabled=false)
-	public void testStart() throws Exception {
+	public void generalStoreTest() throws Exception {
 		HomePage homePage = new HomePage(wait, this);
 		ProductPage productPage = new ProductPage(wait, this);
 		
@@ -31,31 +32,31 @@ public class TestStartApp extends BaseTest {
 		productPage.addGoodsToCart();
 	}
 	
-	@Test(enabled=false)
+	@Test(enabled=true)
 	public void tap() throws Exception{
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performTap();
 	}
 	
-	@Test(enabled=false)
+	@Test(enabled=true)
 	public void doubleTap() throws Exception{
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performDoubleTap();
 	}
 	
-	@Test(enabled=false)
+	@Test(enabled=true)
 	public void dragAndDrop() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performDragAndDrop();
 	}
 	
-	@Test(enabled=false)
+	@Test(enabled=true)
 	public void scrollDown() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performScroll();
 	}
 	
-	@Test(enabled=false)
+	@Test(enabled=true)
 	public void flick() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performFlick();
@@ -93,9 +94,10 @@ public class TestStartApp extends BaseTest {
 		apiPage.performRotate();
 	}
 	
-	@Test(enabled=true)
+	@Test()
 	public void pressKey() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performPressKey();
+		Assert.assertFalse(true);
 	}
 }
