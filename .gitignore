@@ -1,1 +1,12 @@
-/target/
+.idea/
+target/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+bin/
+test-output/
+screen-shots/
+Logger.log

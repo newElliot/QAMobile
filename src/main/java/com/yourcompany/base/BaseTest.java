@@ -222,7 +222,7 @@ public class BaseTest  {
 		}
 	}
 	
-	public String takeScreenshot(AppiumDriver driver, String testMethod) throws IOException {
+	private String takeScreenshot(AppiumDriver driver, String testMethod) throws IOException {
 		if (driver == null) {
 			logger.warn("Unable to take screenshot as driver is not initialized, methodName="
 					+ ((testMethod != null) ? testMethod : null));
