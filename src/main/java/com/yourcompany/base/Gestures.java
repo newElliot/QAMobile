@@ -44,6 +44,10 @@ public class Gestures {
 		elementUtils = new ElementUtils(this.driver);
 	}
 	
+	public AppiumDriver getDriver() {
+		return this.driver;
+	}
+	
 	public void enterValue(WebElement e, String value) {
 		e.clear();
 		e.sendKeys(value);
@@ -57,6 +61,7 @@ public class Gestures {
 	}
 	
 	public void setImplicitWait(int timeOut) throws Exception {
+		checkDriver();
 		try {
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeOut));
 			logger.info("    Override implicit wait successful, timeout=" + timeOut);
@@ -67,12 +72,10 @@ public class Gestures {
 	}
 	
 	public void tap(WebElement e) throws Exception {
-		// Create a new PointerInput object with touch type
-		PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, YOUR_FINGER);
 		// Check the driver is not null, make sure you already initialize this class
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}		
+		checkDriver();	
+		// Create a new PointerInput object with touch type
+				PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, YOUR_FINGER);
 		try {
 			Sequence tap = new Sequence(finger, 1);
 			tap.addAction(finger.createPointerMove(Duration.ZERO, Origin.fromElement(e), 0, 0));
@@ -86,9 +89,7 @@ public class Gestures {
 	}
 	
 	public void doubleTap(WebElement e) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		// Create a new PointerInput object with touch type
 		PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, YOUR_FINGER);
 		try {
@@ -107,9 +108,7 @@ public class Gestures {
 	}
 	
 	public void drag(WebElement source, WebElement target) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, YOUR_FINGER);
 		
 		try {
@@ -127,9 +126,7 @@ public class Gestures {
 	}
 	
 	public void scrollTo(String targetLocator) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		PointerInput finger = null;
 		// Get the size of the screen
 		Dimension size = null;
@@ -177,9 +174,7 @@ public class Gestures {
 	}
 	
 	public void flick(WebElement e, Direction direction, int flickCount) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		PointerInput finger = null;
 		// Get the size of the screen
 		Dimension size = null;
@@ -234,9 +229,7 @@ public class Gestures {
 	}
 
 	public void flickTo(WebElement source, Direction direction, String targetLocator) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		PointerInput finger = null;
 		// Get the size of the screen
 		Dimension size = null;
@@ -296,9 +289,7 @@ public class Gestures {
 	}
 	
 	public void swipe(WebElement e, Direction direction, int swipeCount) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		PointerInput finger = null;
 		// Get the size of the screen
 		Dimension size = null;
@@ -350,9 +341,7 @@ public class Gestures {
 	}
 	
 	public void swipeTo(WebElement source, Direction direction, String targetLocator) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null.");
-		}
+		checkDriver();
 		PointerInput finger = null;
 		// Get the size of the screen
 		Dimension size = null;
@@ -412,9 +401,7 @@ public class Gestures {
 	}
 	
 	public void longPress(WebElement e) throws Exception {
-		if (driver == null) {
-			throw new Exception("        Driver can not be null");
-		}
+		checkDriver();
 		
 		PointerInput finger = new PointerInput(Kind.TOUCH, YOUR_FINGER);
 		Sequence longPress = new Sequence(finger, 1);
@@ -435,6 +422,7 @@ public class Gestures {
 		if (mode == null) {
 			throw new Exception("        RotateMode can not be null.");
 		}
+		checkDriver();
 		if (this.driver instanceof AndroidDriver) {
 			AndroidDriver androidDriver = (AndroidDriver) driver;
 			switch (mode) {
@@ -454,6 +442,7 @@ public class Gestures {
 	}
 	
 	public void pressHomeButton() throws Exception {
+		checkDriver();
 		try {
 			if (this.driver instanceof AndroidDriver) {
 				AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -467,6 +456,7 @@ public class Gestures {
 	}
 	
 	public void pressBackButton() throws Exception {
+		checkDriver();
 		try {
 			if (this.driver instanceof AndroidDriver) {
 				AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -480,6 +470,7 @@ public class Gestures {
 	}
 	
 	public void pressVolUpButton() throws Exception {
+		checkDriver();
 		try {
 			if (this.driver instanceof AndroidDriver) {
 				AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -493,6 +484,7 @@ public class Gestures {
 	}
 	
 	public void pressVolDownButton() throws Exception {
+		checkDriver();
 		try {
 			if (this.driver instanceof AndroidDriver) {
 				AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -506,6 +498,7 @@ public class Gestures {
 	}
 	
 	public void pressVolMuteButton() throws Exception {
+		checkDriver();
 		try {
 			if (this.driver instanceof AndroidDriver) {
 				AndroidDriver androidDriver = (AndroidDriver) driver;
@@ -522,4 +515,9 @@ public class Gestures {
 		return elementUtils.getElementsByXpath(locator).size() > 0;
 	}
 
+	private void checkDriver() throws Exception {
+		if (this.getDriver() == null) {
+			throw new Exception("        Driver can not be null");
+		}
+	}
 }
