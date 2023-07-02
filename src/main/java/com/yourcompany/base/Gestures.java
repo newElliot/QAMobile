@@ -542,6 +542,22 @@ public class Gestures {
 		}
 	}
 	
+	public void launchApp() throws Exception {
+		checkDriver();
+		if (this.getDriver() instanceof AndroidDriver) {
+			AndroidDriver androidDriver = (AndroidDriver) driver;
+			androidDriver.launchApp();
+		} // else IOS
+	}
+	
+	public void closeApp() throws Exception {
+		checkDriver();
+		if (this.getDriver() instanceof AndroidDriver) {
+			AndroidDriver androidDriver = (AndroidDriver) driver;
+			androidDriver.closeApp();
+		} // else IOS
+	}
+	
 	private boolean isElementFound(String locator) throws Exception {
 		return elementUtils.getElementsByXpath(locator).size() > 0;
 	}

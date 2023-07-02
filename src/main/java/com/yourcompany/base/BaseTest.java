@@ -22,7 +22,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.SessionId;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.ISuite;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -35,6 +34,7 @@ import com.yourcompany.configuration.Configuration;
 import com.yourcompany.configuration.DevicesMode;
 import com.yourcompany.configuration.PropertyReader;
 import com.yourcompany.configuration.SystemVariable;
+import com.yourcompany.utilities.Assertions;
 import com.yourcompany.utilities.MobileConstants;
 import com.yourcompany.utilities.ReportUtils;
 import com.yourcompany.utilities.TestUtilities;
@@ -46,7 +46,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 
-public class BaseTest  {
+public class BaseTest extends Assertions {
 	public AndroidDriver androidDriver;
 	public IOSDriver iosDriver;
 	public WebDriverWait wait;
@@ -55,11 +55,8 @@ public class BaseTest  {
 	
 	private static final int APPIUM_PORT = 4723;
 	private static final int MAX_CONNECTION_ATTEMPTS = 5;
+	private static final int MAX_OPEN_ATTEMPTS = 3;
 	public static Logger logger = LogManager.getLogger(BaseTest.class);
-	
-	
-    
-
 	
 	public AppiumDriver getDriver() {
 		return this.androidDriver != null ? this.androidDriver : iosDriver;
@@ -91,6 +88,7 @@ public class BaseTest  {
 			androidDriver = setUpAndroidDriver(deviceType, cap, myApp, url, timeOut);
 			androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(MobileConstants.IMPLICIT_WAIT_DEFAULT));
 			wait = new WebDriverWait(androidDriver, Duration.ofSeconds(MobileConstants.EXPLICIT_WAIT_DEFAULT));
+			attempToOpenAndroidApp();
 			return androidDriver;
 		case "IOS":
 			break;
@@ -101,13 +99,34 @@ public class BaseTest  {
 		return null;
 	}
 	
+	private void attempToOpenAndroidApp() throws Exception {
+		int attemp = 0;
+		boolean isAppOpen = false;
+		do {
+			try {
+				// Replace your actual conditions in here, to make sure app is already opened, retry open for 3 times.
+				verifyEquals(
+						new ElementUtils(wait).waitUntilElementVisibilityByXpath("//*[@text='API Demos']").getText(),
+						"API Demos", "        App didn't open, please check again");
+				isAppOpen = true;
+				logger.info("Application is opened successful");
+			} catch (Exception e) {
+				logger.error("        Error when launch app, attemp = " + attemp);
+				isAppOpen = false;
+				new Gestures(androidDriver).launchApp();
+			}
+		} while (!isAppOpen && attemp++ < MAX_OPEN_ATTEMPTS);
+	}
+	
 	public AndroidDriver setUpAndroidDriver(String deviceMode, DesiredCapabilities cap, File myApp, URL url, int timeOut) throws Exception {
 		AndroidDriver driver = null;
 		if (deviceMode.contains(DevicesMode.REAL.toString())) {
+			logger.info("    Setting capability for real device");
 			cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Device");
 		} else if (deviceMode.contains(DevicesMode.EMULATOR.toString())) {
+			logger.info("    Setting capability for emulator device");
 //			startEmulatorDevice(config.getDevice());
-			cap.setCapability(MobileCapabilityType.DEVICE_NAME, config.getDevice());
+			cap.setCapability(MobileCapabilityType.DEVICE_NAME, config.getEmulatorDevice());
 		}
 
 		cap.setCapability(MobileCapabilityType.APP, myApp.getAbsolutePath());
@@ -116,17 +135,17 @@ public class BaseTest  {
 
 		int attempts = 0;
 		do {
-			Assert.assertNull(driver, "AndroidDriver is already initialized");
+			verifyNull(driver, "AndroidDriver is already initialized");
 			try {
 				logger.info("Initializing AndroidDriver, hubUrl=" + url + ", capabilities=" + cap);
 				driver = new AndroidDriver(url, cap);
 			} catch (Exception e) {
 				logger.error("Error initializing AndroidDriver, attempts=" + attempts + ", maxAttempts="
 						+ MAX_CONNECTION_ATTEMPTS, e);
-				TestUtilities.setDelayTime(2);
+				TestUtilities.setDelayTime(5);
 			}
 		} while (driver == null && attempts++ < MAX_CONNECTION_ATTEMPTS);
-		Assert.assertNotNull(driver, "Unable to initialize AndroidDriver, hubUrl="+url.toString());
+		verifyNotNull(driver, "Unable to initialize AndroidDriver, hubUrl="+url.toString());
 		return driver;
 	}
 
@@ -221,6 +240,15 @@ public class BaseTest  {
 			logger.error("######      Test case:" + result.getMethod().getMethodName() + " has result not defined: " + result.getStatus() + "      ######");
 			break;
 		}
+		try {
+			new Gestures(getDriver()).closeApp();
+		} catch (Exception e) {
+			this.getDriver().close();
+		} finally {
+			androidDriver = null;
+			iosDriver = null;
+		}
+		
 	}
 	
 	private String takeScreenshot(AppiumDriver driver, String testMethod) throws IOException {

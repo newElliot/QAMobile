@@ -23,7 +23,8 @@ public class PropertyReader {
 			bf = new BufferedReader(new FileReader(file));
 			prop.load(bf);
 			configuration.setApp(prop.getProperty("app.apk"));
-			configuration.setDevice(prop.getProperty("app.device.emulator"));
+			configuration.setEmulatorDevice(prop.getProperty("app.device.emulator"));
+			configuration.setRealDevice(prop.getProperty("app.device.real"));
 		} catch (Exception e) {
 			throw new Exception("Fail to load properties file, filename=" + fileName);
 		} finally {

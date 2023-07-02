@@ -2,22 +2,31 @@ package com.yourcompany.configuration;
 
 public class Configuration {
 	private String app;
-	private String device;
+	private String emulatorDevice;
+	private String realDevice;
 	
 	public String getApp() {
 		return this.app;
 	}
 	
-	public String getDevice() {
-		return this.device;
+	public String getEmulatorDevice() {
+		return this.emulatorDevice;
+	}
+	
+	public String getRealDevice() {
+		return this.realDevice;
 	}
 	
 	public void setApp(String app) {
 		this.app = app;
 	}
 	
-	public void setDevice(String device) {
-		this.device = device;
+	public void setEmulatorDevice(String device) {
+		this.emulatorDevice = device;
+	}
+	
+	public void setRealDevice(String device) {
+		this.realDevice = device;
 	}
 	
 	public Configuration() {
@@ -26,6 +35,7 @@ public class Configuration {
 	@Override
 	public String toString() {
 		return "app: " + getApp()
-		+ "device: " + getDevice();
+		+ ",emulator device: " + getEmulatorDevice()
+		+ ", real device: " + getRealDevice();
 	}
 }

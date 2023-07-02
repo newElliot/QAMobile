@@ -32,31 +32,31 @@ public class TestStartApp extends BaseTest {
 		productPage.addGoodsToCart();
 	}
 	
-	@Test(enabled=true)
+	@Test(enabled=true, invocationCount = 5)
 	public void tap() throws Exception{
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performTap();
 	}
 	
-	@Test(enabled=true)
+	@Test(enabled=false)
 	public void doubleTap() throws Exception{
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performDoubleTap();
 	}
 	
-	@Test(enabled=true)
+	@Test(enabled=false)
 	public void dragAndDrop() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performDragAndDrop();
 	}
 	
-	@Test(enabled=true)
+	@Test(enabled=false)
 	public void scrollDown() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performScroll();
 	}
 	
-	@Test(enabled=true)
+	@Test(enabled=false)
 	public void flick() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performFlick();
@@ -86,7 +86,18 @@ public class TestStartApp extends BaseTest {
 		apiPage.performLongPress();
 	}
 	//Zoom-in
+	@Test(enabled=false)
+	public void zoomout() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performZoomOut();
+	}
+	
 	//Zoom-out
+	@Test(enabled=true)
+	public void zoomin() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performZoomIn();
+	}
 	
 	@Test(enabled=false)
 	public void rotate() throws Exception {
@@ -94,7 +105,7 @@ public class TestStartApp extends BaseTest {
 		apiPage.performRotate();
 	}
 	
-	@Test()
+	@Test(enabled=false)
 	public void pressKey() throws Exception {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performPressKey();
