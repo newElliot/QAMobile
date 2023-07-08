@@ -74,8 +74,8 @@ public class BaseTest extends Assertions {
 	 * @throws Exception
 	 */
 	@BeforeMethod(alwaysRun=true)
-	@Parameters({"osName", "deviceType", "hub", "port", "timeOut"})
-	public AppiumDriver setUpMobileDriver(String osName, String deviceType, String hub, String port, int timeOut) throws Exception {
+	@Parameters({"osName", "deviceType", "deviceName", "hub", "port", "timeOut"})
+	public AppiumDriver setUpMobileDriver(String osName, String deviceType, String deviceName, String hub, String port, int timeOut) throws Exception {
 		config = new PropertyReader().loadConfigurationByPropertyFile(SystemVariable.CURRENT_DIR.concat(SystemVariable.MAIN_RESOURCE + "/env/common.properties"));
 
 		File src = new File(SystemVariable.CURRENT_DIR.concat(SystemVariable.TEST_RESOURCE));
@@ -85,7 +85,7 @@ public class BaseTest extends Assertions {
 
 		switch (osName) {
 		case "Android":
-			androidDriver = setUpAndroidDriver(deviceType, cap, myApp, url, timeOut);
+			androidDriver = setUpAndroidDriver(deviceType, deviceName, cap, myApp, url, timeOut);
 			androidDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(MobileConstants.IMPLICIT_WAIT_DEFAULT));
 			wait = new WebDriverWait(androidDriver, Duration.ofSeconds(MobileConstants.EXPLICIT_WAIT_DEFAULT));
 			attempToOpenAndroidApp();
@@ -118,7 +118,7 @@ public class BaseTest extends Assertions {
 		} while (!isAppOpen && attemp++ < MAX_OPEN_ATTEMPTS);
 	}
 	
-	public AndroidDriver setUpAndroidDriver(String deviceMode, DesiredCapabilities cap, File myApp, URL url, int timeOut) throws Exception {
+	public AndroidDriver setUpAndroidDriver(String deviceMode, String deviceName, DesiredCapabilities cap, File myApp, URL url, int timeOut) throws Exception {
 		AndroidDriver driver = null;
 		if (deviceMode.contains(DevicesMode.REAL.toString())) {
 			logger.info("    Setting capability for real device");
@@ -126,7 +126,7 @@ public class BaseTest extends Assertions {
 		} else if (deviceMode.contains(DevicesMode.EMULATOR.toString())) {
 			logger.info("    Setting capability for emulator device");
 //			startEmulatorDevice(config.getDevice());
-			cap.setCapability(MobileCapabilityType.DEVICE_NAME, config.getEmulatorDevice());
+			cap.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
 		}
 
 		cap.setCapability(MobileCapabilityType.APP, myApp.getAbsolutePath());

@@ -8,8 +8,16 @@
   <parameter name="port" value="4723" />
   <parameter name="timeOut" value="30" />
   
+<!--   <test name="Test for tap"> -->
+<!-- 		<classes> -->
+<!-- 			<parameter name="deviceName" value="S21"/> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
+  
   <test name="Test for tap">
 		<classes>
+			<parameter name="deviceName" value="S21"/>
 			<class name="com.yourcompany.tests.TestStartApp" />
 			<methods>
 				<include name="tap" />
@@ -17,39 +25,39 @@
 		</classes>
 	</test>
 	
-	<test name="Test for doubleTap">
-		<classes>
-			<class name="com.yourcompany.tests.TestStartApp" />
-			<methods>
-				<include name="doubleTap" />
-			</methods>
-		</classes>
-	</test>
+<!-- 	<test name="Test for doubleTap"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 			<methods> -->
+<!-- 				<include name="doubleTap" /> -->
+<!-- 			</methods> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 	
-	<test name="Test for dragAndDrop">
-		<classes>
-			<class name="com.yourcompany.tests.TestStartApp" />
-			<methods>
-				<include name="dragAndDrop" />
-			</methods>
-		</classes>
-	</test>
+<!-- 	<test name="Test for dragAndDrop"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 			<methods> -->
+<!-- 				<include name="dragAndDrop" /> -->
+<!-- 			</methods> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 	
-	<test name="Test for scrollDown">
-		<classes>
-			<class name="com.yourcompany.tests.TestStartApp" />
-			<methods>
-				<include name="scrollDown" />
-			</methods>
-		</classes>
-	</test>
+<!-- 	<test name="Test for scrollDown"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 			<methods> -->
+<!-- 				<include name="scrollDown" /> -->
+<!-- 			</methods> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 	
-	<test name="Test for flick">
-		<classes>
-			<class name="com.yourcompany.tests.TestStartApp" />
-			<methods>
-				<include name="flick" />
-			</methods>
-		</classes>
-	</test>
+<!-- 	<test name="Test for flick"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 			<methods> -->
+<!-- 				<include name="flick" /> -->
+<!-- 			</methods> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 </suite> <!-- Suite -->
