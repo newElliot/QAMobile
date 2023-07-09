@@ -36,6 +36,10 @@ public class ElementUtils {
 		return wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
 	}
 	
+	protected WebElement waitUntilElementVisibilityByText(String text) {
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='" + text + "']")));
+	}
+	
 	protected List<WebElement> getElementsByXpath(String xpath) {
 		return driver.findElements(By.xpath(xpath));
 	}

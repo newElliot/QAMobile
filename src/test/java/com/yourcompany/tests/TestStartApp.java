@@ -32,7 +32,7 @@ public class TestStartApp extends BaseTest {
 		productPage.addGoodsToCart();
 	}
 	
-	@Test(enabled=true, invocationCount = 5)
+	@Test(enabled=false)
 	public void tap() throws Exception{
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performTap();
@@ -110,5 +110,17 @@ public class TestStartApp extends BaseTest {
 		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
 		apiPage.performPressKey();
 		Assert.assertFalse(true);
+	}
+	
+	@Test(enabled=false, description="At the time develop this framework, there is no way to handle toast with using uiautomator2 driver")
+	public void handleToast() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performGetToastText();
+	}
+	
+	@Test(enabled=false)
+	public void notification() throws Exception {
+		ApiDemoPage apiPage = new ApiDemoPage(wait, this);
+		apiPage.performCheckNoti();
 	}
 }

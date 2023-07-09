@@ -80,4 +80,20 @@ public class ApiDemoLocator extends ElementUtils {
 	public String getTabs() {
 		return "//*[@text='Tabs']";
 	}
+	
+	public WebElement getToastMessage() {
+		return waitUntilElementVisibilityByXpath("//android.widget.Toast[1]");
+	}
+	
+	public WebElement getPopupMenu() {
+		return waitUntilElementVisibilityByText("Popup Menu");
+	}
+	
+	public WebElement getMakePopupButton() {
+		return waitUntilElementVisibilityByText("MAKE A POPUP!");
+	}
+	
+	public WebElement getSearchOption() {
+		return waitUntilElementVisibilityByText("Search");
+	}
 }
