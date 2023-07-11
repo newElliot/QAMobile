@@ -109,4 +109,17 @@ public class ApiDemoPage extends Gestures {
 		zoomIn(apiDemoLocator.getAndroidView());
 	}
 	
+	public void performGetToastText() throws Exception {
+		tap(apiDemoLocator.getViews());
+		scrollTo("//*[@text='Popup Menu']");
+		tap(apiDemoLocator.getPopupMenu());
+		tap(apiDemoLocator.getMakePopupButton());
+		tap(apiDemoLocator.getSearchOption());
+		verifyEquals(apiDemoLocator.getToastMessage().getText(), "Clicked popup menu item Search", "Failed");
+	}
+	
+	public void performCheckNoti() throws Exception {
+		openSystemNotification();
+	}
+	
 }

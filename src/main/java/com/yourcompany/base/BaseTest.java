@@ -145,7 +145,9 @@ public class BaseTest extends Assertions {
 				TestUtilities.setDelayTime(5);
 			}
 		} while (driver == null && attempts++ < MAX_CONNECTION_ATTEMPTS);
+		
 		verifyNotNull(driver, "Unable to initialize AndroidDriver, hubUrl="+url.toString());
+		
 		return driver;
 	}
 
@@ -192,22 +194,22 @@ public class BaseTest extends Assertions {
 							.withLogFile(new File(SystemVariable.CURRENT_DIR + "/AppiumServerLog.log"))
 							.build();
 					service.start();
+					logger.info("==== Appium server started successful with custom service ====");
 				} catch (Exception ex) {
 					logger.info("Start with appiumJS failed. Begin start with appium default service");
 					service = null;
 					service = AppiumDriverLocalService.buildDefaultService();
 					service.start();
+					logger.info("==== Appium server started successful with default service ====");
 				}
-				
-				logger.info("==== Appium server started successful ====");
 			}
 			return service;
 		} catch (Exception e) {
-			throw new Exception("        !!!Appium server start failed");
+			throw new Exception("        !!!Appium server start failed", e);
 		}
 	}
 	
-	private  boolean isAppiumServerRunning(int port) {
+	private boolean isAppiumServerRunning(int port) {
 		boolean flag = false;
 		ServerSocket socket;
 		try {
@@ -243,12 +245,16 @@ public class BaseTest extends Assertions {
 		try {
 			new Gestures(getDriver()).closeApp();
 		} catch (Exception e) {
+			// not a big deal
+		}
+		try {
 			this.getDriver().close();
+		} catch (Exception e) {
+			// might be problem
 		} finally {
 			androidDriver = null;
 			iosDriver = null;
 		}
-		
 	}
 	
 	private String takeScreenshot(AppiumDriver driver, String testMethod) throws IOException {

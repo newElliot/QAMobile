@@ -20,10 +20,19 @@
 			<parameter name="deviceName" value="S21"/>
 			<class name="com.yourcompany.tests.TestStartApp" />
 			<methods>
-				<include name="tap" />
+				<include name="notification" />
 			</methods>
 		</classes>
 	</test>
+  
+<!--   <test name="Test for tap"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 			<methods> -->
+<!-- 				<include name="tap" /> -->
+<!-- 			</methods> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
 	
 <!-- 	<test name="Test for doubleTap"> -->
 <!-- 		<classes> -->
@@ -57,6 +66,14 @@
 <!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
 <!-- 			<methods> -->
 <!-- 				<include name="flick" /> -->
+<!-- 			</methods> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
+<!-- 	<test name="Test for handleToast"> -->
+<!-- 		<classes> -->
+<!-- 			<class name="com.yourcompany.tests.TestStartApp" /> -->
+<!-- 			<methods> -->
+<!-- 				<include name="handleToast" /> -->
 <!-- 			</methods> -->
 <!-- 		</classes> -->
 <!-- 	</test> -->

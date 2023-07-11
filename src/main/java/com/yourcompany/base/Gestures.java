@@ -17,6 +17,7 @@ import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.Assert;
 
 import com.google.common.collect.ImmutableMap;
+import com.yourcompany.utilities.Assertions;
 import com.yourcompany.utilities.MobileConstants;
 import com.yourcompany.utilities.TestUtilities;
 
@@ -27,7 +28,8 @@ import io.appium.java_client.android.nativekey.KeyEvent;
 import org.openqa.selenium.interactions.PointerInput.Kind;
 import org.openqa.selenium.interactions.PointerInput.Origin;
 
-public class Gestures {
+
+public class Gestures extends Assertions {
 	public static Logger logger = LogManager.getLogger(Gestures.class.getName());
 	private static final String YOUR_FINGER = "finger";
 	private static final int SCROLL_SPEED = 1;
@@ -547,6 +549,7 @@ public class Gestures {
 		if (this.getDriver() instanceof AndroidDriver) {
 			AndroidDriver androidDriver = (AndroidDriver) driver;
 			androidDriver.launchApp();
+			logger.info("    Launched application");
 		} // else IOS
 	}
 	
@@ -555,7 +558,17 @@ public class Gestures {
 		if (this.getDriver() instanceof AndroidDriver) {
 			AndroidDriver androidDriver = (AndroidDriver) driver;
 			androidDriver.closeApp();
+			logger.info("    Closed application");
 		} // else IOS
+	}
+
+	public void openSystemNotification() throws Exception {
+		checkDriver();
+		if (this.getDriver() instanceof AndroidDriver) {
+			AndroidDriver androidDriver = (AndroidDriver) driver;
+			androidDriver.openNotifications();
+			logger.info("    Opened system notification");
+		}
 	}
 	
 	private boolean isElementFound(String locator) throws Exception {
